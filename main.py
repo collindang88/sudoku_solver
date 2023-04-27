@@ -1,20 +1,11 @@
 from copy import deepcopy
 import pygame
-import button
+import src.button as button
 import requests
-import time
-
-
-def print_board(arr):
-    print('     sudoku solver')
-    print('-------------------------')
-    for row in arr:
-        for element in row:
-            if element != 0:
-                print(str(element) + "  ", end="")
-            else:
-                print("-  ", end="")
-        print()
+import json
+from sudoku import Sudoku
+from typing import List
+import random
 
 
 def fill_static_board(arr):
@@ -137,18 +128,31 @@ def clear_board():
             pygame.draw.rect(window, OFF_WHITE, [55 + 50 * j, 55 + 50 * i, 40, 40])
 
 
-def generate_board(difficulty):
-    url = 'https://sugoku.herokuapp.com/board?difficulty=' + difficulty
-    x = requests.get(url)
-    board = eval(x.text)
-    return board['board']
+def generate_board(difficulty: str) -> List[List[int]]:
+    difficulty_mapping = {
+        "easy": (0.3, 0.4),
+        "medium": (0.5, 0.6),
+        "hard": (0.7, 0.8),
+        "expert": (0.9, 1.0)
+    }
+    
+    if difficulty not in difficulty_mapping:
+        raise ValueError(f"Invalid difficulty: {difficulty}. Use 'easy', 'medium', 'hard', or 'expert'.")
+
+    min_diff, max_diff = difficulty_mapping[difficulty]
+    random_difficulty = random.uniform(min_diff, max_diff)
+    
+    puzzle = Sudoku(3).difficulty(random_difficulty)
+    puzzle.show()
+
+    return [[0 if value is None else value for value in row] for row in puzzle.board]
 
 
 def draw_numbers():
     # draw numbers
     for i in range(0, len(arr)):
         for j in range(0, len(arr[0])):
-            if 1 <= arr[i][j] <= 9:
+            if arr[i][j]:
                 value = font.render(str(arr[i][j]), True, BLUE)
                 window.blit(value, ((j + 1) * 50 + 18, (i + 1) * 50))
 
@@ -165,13 +169,10 @@ if __name__ == '__main__':
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
     OFF_WHITE = (255, 247, 245)
-    DIFFICULTY = 'easy'
+    DIFFICULTY = 'hard'
 
     arr = generate_board(DIFFICULTY)
-    # print_board(arr)
-
     play_board = deepcopy(arr)
-    # print_board(play_board)
 
     pygame.init()
     window = pygame.display.set_mode((WIDTH, HEIGHT))
