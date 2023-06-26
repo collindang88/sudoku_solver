@@ -8,7 +8,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 OFF_WHITE = (255, 247, 245)
 DIFFICULTY = 'medium'
-DELAY = 0.00
+DELAY = 0.02
 
 pygame.init()
 font = pygame.font.SysFont('Comic Sans MS', 35)
