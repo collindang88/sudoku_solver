@@ -3,6 +3,7 @@ import random
 from sudoku import Sudoku
 import pygame
 from typing import List
+from src.verifier import Verifier
 
 from src.config import WIDTH, HEIGHT, BLUE, BLACK, RED, OFF_WHITE, font
 from src.solver import Solver
@@ -18,6 +19,8 @@ class Board:
         solver = Solver(deepcopy(self.empty_board), self.window)
         solver.solve(0, 0)
         self.play_board = solver.state
+        print('solved!')
+        Verifier.verify(self.play_board)
 
     def clear(self):
         self.play_board = deepcopy(self.empty_board)

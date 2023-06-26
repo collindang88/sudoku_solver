@@ -58,4 +58,13 @@ class Solver:
             my_set.add(row[col_num])
         my_set.clear()
 
+        # check that the 3x3 square is valid
+        start_row, start_col = row_num - row_num % 3, col_num - col_num % 3
+        for i in range(3):
+            for j in range(3):
+                cur = self.state[i + start_row][j + start_col]
+                if cur in my_set and cur != 0:
+                    return False
+                my_set.add(cur)
+
         return True
