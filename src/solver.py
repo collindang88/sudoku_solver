@@ -1,8 +1,13 @@
-from typing import List
-import pygame
+# Standard Library
 import time
+from typing import List
 
-from src.config import OFF_WHITE, RED, font, DELAY
+# Third Party
+import pygame
+
+# First Party
+from src.config import DELAY, OFF_WHITE, RED, font
+
 
 class Solver:
     def __init__(self, state: List[List[int]], window: pygame.surface.Surface):
@@ -34,7 +39,9 @@ class Solver:
 
     def update_board(self, row: int, column: int, number: int) -> None:
         if number == 0:
-            pygame.draw.rect(self.window, OFF_WHITE, [55 + 50 * column, 55 + 50 * row, 40, 40])
+            pygame.draw.rect(
+                self.window, OFF_WHITE, [55 + 50 * column, 55 + 50 * row, 40, 40]
+            )
         else:
             value = font.render(str(number), True, RED)
             self.window.blit(value, ((column + 1) * 50 + 18, (row + 1) * 50))

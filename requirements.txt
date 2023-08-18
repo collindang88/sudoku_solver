@@ -1,2 +1,15 @@
+autoflake==2.2.0
+black==23.7.0
+click==8.1.7
+colorama==0.4.6
+flake8==6.1.0
+isort==5.12.0
+mccabe==0.7.0
+mypy-extensions==1.0.0
+packaging==23.1
+pathspec==0.11.2
+platformdirs==3.10.0
 py-sudoku==1.0.3
+pycodestyle==2.11.0
+pyflakes==3.1.0
 pygame==2.5.0

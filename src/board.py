@@ -1,15 +1,20 @@
-from copy import deepcopy
+# Standard Library
 import random
-from sudoku import Sudoku
-import pygame
+from copy import deepcopy
 from typing import List
+
+# Third Party
+import pygame
+from sudoku import Sudoku
+
+# First Party
+from src.config import BLACK, BLUE, RED, font
+from src.solver import Solver
 from src.verifier import Verifier
 
-from src.config import WIDTH, HEIGHT, BLUE, BLACK, RED, OFF_WHITE, font
-from src.solver import Solver
 
 class Board:
-    def __init__(self, window: pygame.surface.Surface, difficulty='hard'):
+    def __init__(self, window: pygame.surface.Surface, difficulty="hard"):
         self.window = window
         self.difficulty = difficulty
         self.empty_board = self.generate_board(self.difficulty)
@@ -18,13 +23,13 @@ class Board:
 
     def solve(self):
         if self.solved:
-            print('already solved!')
+            print("already solved!")
             return
         solver = Solver(deepcopy(self.empty_board), self.window)
         solver.solve(0, 0)
         self.play_board = solver.state
         Verifier.verify(self.play_board)
-        print('solved!')
+        print("solved!")
         self.solved = True
 
     def clear(self):
@@ -41,29 +46,42 @@ class Board:
             "easy": (0.3, 0.4),
             "medium": (0.5, 0.6),
             "hard": (0.7, 0.8),
-            "expert": (0.9, 1.0)
+            "expert": (0.9, 1.0),
         }
-        
+
         if difficulty not in difficulty_mapping:
-            raise ValueError(f"Invalid difficulty: {difficulty}. Use 'easy', 'medium', 'hard', or 'expert'.")
+            raise ValueError(
+                f"Invalid difficulty: {difficulty}. "
+                "Use 'easy', 'medium', 'hard', or 'expert'."
+            )
 
         min_diff, max_diff = difficulty_mapping[difficulty]
         random_difficulty = random.uniform(min_diff, max_diff)
         seed = random.randint(0, 1000)
-    
+
         puzzle = Sudoku(3, seed=seed).difficulty(random_difficulty)
         puzzle.show()
 
-        return [[0 if value is None else value for value in row] for row in puzzle.board]
+        return [
+            [0 if value is None else value for value in row] for row in puzzle.board
+        ]
 
     def draw_lines(self):
         for i in range(0, 10):
             if i % 3 == 0:
-                pygame.draw.line(self.window, BLACK, (50 + 50 * i, 50), (50 + 50 * i, 500), 4)  # vertical lines
-                pygame.draw.line(self.window, BLACK, (50, 50 + 50 * i), (500, 50 + 50 * i), 4)  # horizontal lines
+                pygame.draw.line(
+                    self.window, BLACK, (50 + 50 * i, 50), (50 + 50 * i, 500), 4
+                )  # vertical lines
+                pygame.draw.line(
+                    self.window, BLACK, (50, 50 + 50 * i), (500, 50 + 50 * i), 4
+                )  # horizontal lines
             else:
-                pygame.draw.line(self.window, BLACK, (50 + 50 * i, 50), (50 + 50 * i, 500), 2)  # vertical lines
-                pygame.draw.line(self.window, BLACK, (50, 50 + 50 * i), (500, 50 + 50 * i), 2)  # horizontal lines
+                pygame.draw.line(
+                    self.window, BLACK, (50 + 50 * i, 50), (50 + 50 * i, 500), 2
+                )  # vertical lines
+                pygame.draw.line(
+                    self.window, BLACK, (50, 50 + 50 * i), (500, 50 + 50 * i), 2
+                )  # horizontal lines
 
     def draw_numbers(self):
         for i in range(0, len(self.play_board)):

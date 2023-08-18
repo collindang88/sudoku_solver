@@ -1,3 +1,4 @@
+# Third Party
 import pygame
 
 WIDTH = 550
@@ -7,8 +8,8 @@ RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 OFF_WHITE = (255, 247, 245)
-DIFFICULTY = 'medium'
+DIFFICULTY = "medium"
 DELAY = 0.02
 
 pygame.init()
-font = pygame.font.SysFont('Comic Sans MS', 35)
+font = pygame.font.SysFont("Comic Sans MS", 35)
