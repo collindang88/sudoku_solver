@@ -14,20 +14,27 @@ class Board:
         self.difficulty = difficulty
         self.empty_board = self.generate_board(self.difficulty)
         self.play_board = deepcopy(self.empty_board)
+        self.solved = False
 
     def solve(self):
+        if self.solved:
+            print('already solved!')
+            return
         solver = Solver(deepcopy(self.empty_board), self.window)
         solver.solve(0, 0)
         self.play_board = solver.state
-        print('solved!')
         Verifier.verify(self.play_board)
+        print('solved!')
+        self.solved = True
 
     def clear(self):
         self.play_board = deepcopy(self.empty_board)
+        self.solved = False
 
     def generate(self):
         self.empty_board = self.generate_board()
         self.play_board = deepcopy(self.empty_board)
+        self.solved = False
 
     def _generate_board(self, difficulty: str) -> List[List[int]]:
         difficulty_mapping = {
