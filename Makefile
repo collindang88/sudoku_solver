@@ -8,9 +8,15 @@ ls:
 	@echo "  make freeze-deps     Freezes package depedencies to requirements.txt"
 	@echo "  make py-fmt          Format the code"
 	@echo "  make py-lint         Lint the code"
-	@echo "  make all             Format and lint the code"
+	@echo "  make all             Install deps, freeze deps, format, and lint the code"
 
-install-deps:
+check-venv:
+	@if [ -z "$$VIRTUAL_ENV" ]; then \
+        tput setaf 1; echo "Please activate your virtual environment first."; tput sgr0; \
+        exit 1; \
+    fi
+
+install-deps: check-venv
 	@pip install -r requirements.txt
 	@tput setaf 2; echo "Depedencies installed!"; tput sgr0
 
