@@ -1,0 +1,3 @@
+[submodule "collin-shared"]
+	path = collin-shared
+	url = git@github.com:collindang88/collin-shared.git
